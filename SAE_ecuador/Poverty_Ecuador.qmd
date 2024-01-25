@@ -1,0 +1,101 @@
+---
+title: "Mapa de Pobreza para Ecuador"
+author: "Fernando Rios-Avila"
+format: 
+  revealjs: 
+    slide-number: true
+    width: 1500
+    height: 900
+    code-fold: true
+    echo: true
+    css: styles.css  
+    theme: simple
+---
+
+## Introducción
+
+- Esta presentacion es para documentar el avance para la generacion de mapa de Pobreza para Ecuador:
+
+- El objetivo es generar un mapa de pobreza para Ecuador usando los datos de la Encuesta de Condiciones de Vida (ECV) del 2014 y el Censo del 2010.
+
+    - Problema conceptual: Para que año se plantea generar el Mapa? 2010 o 2014?
+ 
+- Aunque este ejercicio ya se habia llevado a cabo en el pasado, lo que se busca es poder replicar los resultados que se obtuvieron en su momento.
+
+## Datos y antecedentes
+
+- Los Datos del Censo y la ECV fueron proporcionados directamente para la realizacion del ejercicio
+
+- Aunque tambien se proporcionaron codigos para la generacion de datos homogenous por parte de la contraparte de Ecuador, estos no fueron utilizados en el ejercicio.
+    - Se considero que una mejor replicacion seria posible si se utilizaban los datos originales, basados en los criterios del consultor.
+     
+- La mayor diferencia, basado en experiencia pasada, fue que el grupo de variables generados es mas restrictivo que el que se genero en el pasado.
+  - Tampoco se usa informacion exogena para la generacion de los mapas.
+
+## Metodologia
+
+- Para la generacion de las imputaciones de pobreza para niveles locales, se usa la metodologia de Small Area Estimation (SAE) que esta implementada en el paquete `sae` de `Stata`.
+
+- La version original, que aparece en el reporte, se genero modelando determinantes de consumo percapita para cada provincia. Esta estrategia es potencialmente flexible, por que permite que todos los determinantes de consumo (incluida la heterogeneidad a nivel sub-provincia) varien por provincia.
+    - Como robustes, se intento generar modelos por provincia, sin embargo, esto no fue posible por que no habia suficientes clusters para estimar los modelos.
+- En contraste, la version que presento aca es mas restrictiva, que solamente permite que los determinantes de consumo varien por zona (urbana/rural) 
+
+- El modelo final considera un total de 40 variables, despues de usar filtros por Lasso.
+
+## Resultados
+
+![Incidencia de Pobreza](fig1.png)
+
+## Que esta pasando?
+
+1. Como se observa, la incidencia de pobreza imputada usando SAE es mayor que la que se obtiene usando la encuesta de hogares.
+    - En la version original, la incidencia de pobreza imputada basicamente replicaba la incidencia de pobreza de la encuesta de hogares.
+2. Sin embargo, la pobreza imputada es muy semejante a la pobreza que se reporta para el Censo del 2010. (32.8% vs 31.15%)
+
+- Cual de los dos ejercicios es el correcto?
+
+## Explicando las diferencias
+
+Considerese lo siguiente:
+
+- La metodologia de SAE se basa en la modelacion del consumo percapita de los hogares, como funcion de variables a nivel de hogar y nivel agregado (en adicion a los efectos fijos).
+  - En el ejercicio que se presenta aca, solo se usan caracteristicas a nivel de hogar.
+- Bajo supuestos de normalidad y linealidad, lo que se intenta estimar es la funcion de distribucion de consumo percapita.
+
+$$\begin{aligned}
+f_{14}(y) = \int f_{14}(y|X) f_{14}(X) dX
+\end{aligned}
+$$
+
+- Donde $f_{14}(y)$ es la funcion de distribucion de consumo percapita para el 2014. 
+- $f_{14}(y|X)$ representa los parametros y efectos fijos
+- $f_{14}(X)$ representa las caracteristicas de la poblacion en 2014.
+
+##
+
+- La imputacion de pobreza que genera `SAE` asume que la distribucion condicional de consumo no a cambiado mucho entre el 2010 y el 2014.
+
+$$f_{14}(y|X) \approx f_{10}(y|X)$$
+
+- Sin embargo, la distribucion de caracteristicas de la poblacion si ha cambiado entre el 2010 y el 2014.
+
+- Por lo tanto, la imputacion de pobreza que genera `SAE` deberia ser mas cercana a la distribucion de pobreza que se observo en el 2010, que a la del 2014.
+$$\begin{aligned}
+\hat{f}_{10}(y) = \int \hat f_{14}(y|X) f_{10}(X) dX
+\end{aligned}
+$$
+
+## Es posible crear un mapa para el 2014?
+
+- Si se quiere crear un mapa de pobreza para el 2014, la guia de `SAE` sugiere que es posible hacerlo, usando informacion "unit-level" 
+- Esto implica reducir el peso de las caracteristicas de hogares, e incluir en el modelo variables a nivel aggregado/geografico. 
+  - Por ejemplo, Se podria usar data del Censo para generar variables a nivel de zona, incluirlas en la ECV, y usar `SAE` para generar un mapa de pobreza.
+- Si las variables aggregadas son las que explican la mayor parte de la variacion en el consumo percapita, entonces el mapa de pobreza que se genere deberia ser mas cercano a la distribucion de pobreza que se observa en la ECV.
+    - Esto esta pendiende, ya que la recomendacion es tratar de evitar uso exclusivo de este tipo de variables.
+
+# Mapas
+
+## 
+
+
+
