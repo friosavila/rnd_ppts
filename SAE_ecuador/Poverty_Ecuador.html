@@ -415,12 +415,55 @@ f_{14}(y) = \int f_{14}(y|X) f_{14}(X) dX
 <section id="section" class="slide level2">
 <h2></h2>
 <ul>
-<li>La imputacion de pobreza que genera <code>SAE</code></li>
+<li>La imputacion de pobreza que genera <code>SAE</code> asume que la distribucion condicional de consumo no a cambiado mucho entre el 2010 y el 2014.</li>
 </ul>
-<div class="footer footer-default">
+<p><span class="math display">\[f_{14}(y|X) \approx f_{10}(y|X)\]</span></p>
+<ul>
+<li><p>Sin embargo, la distribucion de caracteristicas de la poblacion si ha cambiado entre el 2010 y el 2014.</p></li>
+<li><p>Por lo tanto, la imputacion de pobreza que genera <code>SAE</code> deberia ser mas cercana a la distribucion de pobreza que se observo en el 2010, que a la del 2014. <span class="math display">\[\begin{aligned}
+\hat{f}_{10}(y) = \int \hat f_{14}(y|X) f_{10}(X) dX
+\end{aligned}
+\]</span></p></li>
+</ul>
+</section>
+<section id="es-posible-crear-un-mapa-para-el-2014" class="slide level2">
+<h2>Es posible crear un mapa para el 2014?</h2>
+<ul>
+<li>Si se quiere crear un mapa de pobreza para el 2014, la guia de <code>SAE</code> sugiere que es posible hacerlo, usando informacion “unit-level”</li>
+<li>Esto implica reducir el peso de las caracteristicas de hogares, e incluir en el modelo variables a nivel aggregado/geografico.
+<ul>
+<li>Por ejemplo, Se podria usar data del Censo para generar variables a nivel de zona, incluirlas en la ECV, y usar <code>SAE</code> para generar un mapa de pobreza.</li>
+</ul></li>
+<li>Si las variables aggregadas son las que explican la mayor parte de la variacion en el consumo percapita, entonces el mapa de pobreza que se genere deberia ser mas cercano a la distribucion de pobreza que se observa en la ECV.
+<ul>
+<li>Esto esta pendiende, ya que la recomendacion es tratar de evitar uso exclusivo de este tipo de variables.</li>
+</ul></li>
+</ul>
+</section>
+<section>
+<section id="mapas" class="title-slide slide level1 center">
+<h1>Mapas</h1>
+
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+
+<img data-src="mapa1.png" class="r-stretch"></section>
+<section id="section-2" class="slide level2">
+<h2></h2>
+
+<img data-src="mapa2.png" class="r-stretch"></section>
+<section id="section-3" class="slide level2">
+<h2></h2>
+
+<img data-src="mapa3.png" class="r-stretch"></section>
+<section id="section-4" class="slide level2">
+<h2></h2>
+
+<img data-src="mapa4.png" class="r-stretch"><div class="footer footer-default">
 
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
@@ -597,7 +640,7 @@ f_{14}(y) = \int f_{14}(y|X) f_{14}(X) dX
         // The "normal" size of the presentation, aspect ratio will be preserved
         // when the presentation is scaled to fit different resolutions. Can be
         // specified using percentage units.
-        width: 1500,
+        width: 1600,
 
         height: 900,
 

@@ -4,7 +4,7 @@ author: "Fernando Rios-Avila"
 format: 
   revealjs: 
     slide-number: true
-    width: 1500
+    width: 1600
     height: 900
     code-fold: true
     echo: true
@@ -85,6 +85,12 @@ $$\begin{aligned}
 \end{aligned}
 $$
 
+## Segundo problema
+
+- La imputacion que genero tiene un nivel de precision mas bajo que la que se genero en el pasado.
+
+ 
+
 ## Es posible crear un mapa para el 2014?
 
 - Si se quiere crear un mapa de pobreza para el 2014, la guia de `SAE` sugiere que es posible hacerlo, usando informacion "unit-level" 
@@ -97,5 +103,18 @@ $$
 
 ## 
 
+![](mapa1.png)
 
+## 
 
+![](mapa2.png)
+
+## 
+
+![](mapa3.png)
+
+## 
+
+![](mapa4.png)
+
+# Gracias
