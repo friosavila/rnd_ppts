@@ -1,0 +1,100 @@
+---
+title: "Time Poverty Feminization and Gender Discrimination in a Developing Country'"
+subtitle: "A Review"
+author: Fernando Rios-Avila
+format: 
+  revealjs:
+    width: 1200
+    height: 700
+    theme: clean2.scss
+    transition: slide
+    slide-number: true
+---
+
+## Introduction
+
+This paper examines time poverty in Colombia using the National Time Use Survey data. While it addresses an important topic, there are several methodological issues and areas for improvement.
+
+::: {.notes}
+The topic is relevant, but the execution needs refinement.
+:::
+
+## Sample and Estimation Issues
+
+- Unclear if full sample or only working-age adults are used
+- Lack of details on estimation procedure (weights, clustering, standard errors)
+- High statistical significance suggests potential misuse of survey weights
+
+::: {.notes}
+These issues could significantly bias the results. The authors should clarify their methodology and ensure proper use of survey data techniques.
+:::
+
+## Interpretation of Results
+
+- Oaxaca-Blinder decomposition misinterpreted as identifying discrimination
+- Incorrect interpretation of positive coefficients in decomposition
+- Policy implications not well-tied to empirical results
+
+::: {.notes}
+The authors need to be more cautious in their interpretations, avoiding causal language about discrimination and ensuring policy recommendations are directly supported by their findings.
+:::
+
+## Methodological Issues
+
+- Problematic use of squared terms in decomposition
+- Incorrect calculation of marginal effects for squared terms
+- Unnecessary and incorrect "asymptotic" expression for decomposition
+
+::: {.notes}
+These technical issues undermine the reliability of the results. Using centered squared terms and correcting the marginal effects calculation would improve the analysis.
+:::
+
+## Clarity and Context
+
+- Key differences (e.g., 0.023 in abstract) not clearly defined
+- Lack of comparison to time poverty gender gaps in other countries
+- Paper's contribution, especially compared to previous work on Colombia, not explicit
+
+::: {.notes}
+Providing more context and clearly stating the paper's contribution would enhance its value to the field.
+:::
+
+## Data and Measurement
+
+- Likely overestimation of time deficits due to 52-week work year assumption
+- Ambiguity in individual vs. household level time poverty measurement
+- Lack of details on estimation of key parameters (R, a_ij)
+
+::: {.notes}
+Using effective weeks worked and clarifying the level of analysis would improve the accuracy and interpretability of the results.
+:::
+
+## Suggestions for Improvement (1)
+
+1. Clarify sample used and provide full estimation procedure details
+2. Re-estimate results with appropriate weights and clustering
+3. Revise interpretation of decomposition results, avoiding causal language
+4. Use centered squared terms in decomposition for easier interpretation
+
+::: {.notes}
+These changes would significantly improve the methodological rigor of the paper.
+:::
+
+## Suggestions for Improvement (2)
+
+5. Provide more context on results compared to other countries and previous work
+6. Clarify individual vs. household level time poverty measurement
+7. Consider using effective weeks worked instead of 52-week assumption
+8. Examine urban/rural and household type differences in more depth
+
+::: {.notes}
+These suggestions would enhance the paper's contribution to the literature and policy relevance.
+:::
+
+## Conclusion
+
+While addressing an important topic, this paper requires significant revisions to provide robust insights on time poverty and gender in Colombia. More care in the empirical approach and interpretation of results is needed.
+
+::: {.notes}
+The authors have an opportunity to make a valuable contribution with careful revisions and methodological improvements.
+:::
