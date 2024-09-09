@@ -327,7 +327,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Time Poverty Feminization and Gender Discrimination in a Developing Country’</h1>
-  <p class="subtitle">A Review</p>
+  <p class="subtitle">Comments and Suggestions</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -340,186 +340,87 @@ Fernando Rios-Avila
 </section>
 <section id="introduction" class="slide level2">
 <h2>Introduction</h2>
-<p>This paper examines time poverty in Colombia using the National Time Use Survey data. While it addresses an important topic, there are several methodological issues and areas for improvement.</p>
-<aside class="notes">
-<p>The topic is relevant, but the execution needs refinement.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="sample-and-estimation-issues" class="slide level2">
-<h2>Sample and Estimation Issues</h2>
 <ul>
-<li>Unclear if full sample or only working-age adults are used</li>
-<li>Lack of details on estimation procedure (weights, clustering, standard errors)</li>
-<li>High statistical significance suggests potential misuse of survey weights</li>
+<li><p>This paper examines time poverty in Colombia using the National Time Use Survey data, aiming to identify factors that explain the gap between men and women.</p></li>
+<li><p>They use the LIMTIP method for the identification of time poverty, and an extension of the Oaxaca-Blinder decomposition to analyze the gender gap.</p></li>
+<li><p>While it addresses an important topic, (gender gap at home), for the case of Colombia, there are some aspects of the methodology and implementation that need attention.</p></li>
 </ul>
-<aside class="notes">
-<p>These issues could significantly bias the results. The authors should clarify their methodology and ensure proper use of survey data techniques.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+</section>
+<section id="limtip-construction" class="slide level2">
+<h2>LIMTIP Construction</h2>
+<ul>
+<li>Details behind the estimation of LIMTIP are not provided.
+<ul>
+<li>The basics are there, but there are many smaller details that not fully explained
+<ul>
+<li>How are thresholds defined? <span class="math inline">\(R_j\)</span> or shares <span class="math inline">\(a_{ij}\)</span>?</li>
+<li>Are you using full sample or working age population?</li>
+<li>Is the data on time-use part of main Survey or was any imputation done?</li>
+<li>Is time poverty measured at the individual or household level?</li>
+</ul></li>
+<li>Something that call our attention. For time spend at work, are you using a 52-week year assumption? We find that this overstates the time deficit</li>
+</ul></li>
+</ul>
+</section>
+<section id="inference-and-estimation" class="slide level2">
+<h2>Inference and Estimation</h2>
+<p>It may be necessariy to check the estimation procedure.</p>
+<ul>
+<li>Are you using Full Sample or Working Age Population for analysis?
+<ul>
+<li>Summary statistics suggest the former. But then LIMTIP for children and elderly may not make sense.</li>
+<li>This may also be explaining the small gender gap that is reported. (2.3% of time poverty gap seems too small)</li>
+</ul></li>
+<li>I’m also concerned with the proper use of sampling weights. The High statistical significance suggests potential misuse. [fw vs pw]</li>
+<li>What is “extreme time poverty” in the context of LIMTIP?</li>
+</ul>
 </section>
 <section id="interpretation-of-results" class="slide level2">
 <h2>Interpretation of Results</h2>
 <ul>
-<li>Oaxaca-Blinder decomposition misinterpreted as identifying discrimination</li>
-<li>Incorrect interpretation of positive coefficients in decomposition</li>
-<li>Policy implications not well-tied to empirical results</li>
-</ul>
-<aside class="notes">
-<p>The authors need to be more cautious in their interpretations, avoiding causal language about discrimination and ensuring policy recommendations are directly supported by their findings.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="methodological-issues" class="slide level2">
-<h2>Methodological Issues</h2>
+<li>Word of Caution: <strong>Oaxaca-Blinder</strong> decomposition should not be interpreted as discrimination.
 <ul>
-<li>Problematic use of squared terms in decomposition</li>
-<li>Incorrect calculation of marginal effects for squared terms</li>
-<li>Unnecessary and incorrect “asymptotic” expression for decomposition</li>
-</ul>
-<aside class="notes">
-<p>These technical issues undermine the reliability of the results. Using centered squared terms and correcting the marginal effects calculation would improve the analysis.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="clarity-and-context" class="slide level2">
-<h2>Clarity and Context</h2>
+<li>It is an Accouting excercise, not a causal effect. Other factors could be related to discrimination.</li>
+</ul></li>
+<li>Caution: Squared terms in decompositions are difficult to interpret.
 <ul>
-<li>Key differences (e.g., 0.023 in abstract) not clearly defined</li>
-<li>Lack of comparison to time poverty gender gaps in other countries</li>
-<li>Paper’s contribution, especially compared to previous work on Colombia, not explicit</li>
-</ul>
-<aside class="notes">
-<p>Providing more context and clearly stating the paper’s contribution would enhance its value to the field.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="data-and-measurement" class="slide level2">
-<h2>Data and Measurement</h2>
+<li>First, Marginal effects are incorrectily calculated.</li>
+<li>The “asymptotic” expression for decomposition is unnecessary and incorrect. (Eq 9)</li>
+<li>In decompositions, Squared terms cannot be interpreted as separate effects.
 <ul>
-<li>Likely overestimation of time deficits due to 52-week work year assumption</li>
-<li>Ambiguity in individual vs.&nbsp;household level time poverty measurement</li>
-<li>Lack of details on estimation of key parameters (R, a_ij)</li>
+<li>And they cannot be interpreted directly in non-linear models.</li>
+</ul></li>
+</ul></li>
 </ul>
-<aside class="notes">
-<p>Using effective weeks worked and clarifying the level of analysis would improve the accuracy and interpretability of the results.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+</section>
+<section id="suggestions-for-improvement" class="slide level2">
+<h2>Suggestions for Improvement</h2>
+<ol type="1">
+<li>It may benefit to provide <strong>more</strong> context with other Latin American countries.</li>
+<li>Provide few more details on the construction of LIMTIP, some of the decisions may affect the results.</li>
+<li>Clearly define the target population for the LIMTIP estimation, and analysis.</li>
+<li>Consider using # of weeks worked instead of 52-week assumption. (if information is available)</li>
+<li>Technical: Use centered squared terms in decomposition for easier interpretation</li>
+</ol>
 </section>
 <section id="suggestions-for-improvement-1" class="slide level2">
-<h2>Suggestions for Improvement (1)</h2>
-<ol type="1">
-<li>Clarify sample used and provide full estimation procedure details</li>
-<li>Re-estimate results with appropriate weights and clustering</li>
-<li>Revise interpretation of decomposition results, avoiding causal language</li>
-<li>Use centered squared terms in decomposition for easier interpretation</li>
+<h2>Suggestions for Improvement</h2>
+<ol start="6" type="1">
+<li>Given the “small” gap of poverty incidence, may be more useful to also analyze factors related to time deficits.</li>
+<li>Some of the summary statistics indicate that Gaps are larger for some groups. This could be explored further.
+<ul>
+<li>Urban vs Rural for example.</li>
+</ul></li>
+<li>Make the contribution of the paper more explicit.
+<ul>
+<li>What is the main takeaway?</li>
+<li>What is the main contribution to the literature?</li>
+</ul></li>
+<li>To consider. Since you have data on couples, may be more relevant to analyze the gap in the household, rather than individual level. (single men vs single women may not be comparable at all)</li>
 </ol>
-<aside class="notes">
-<p>These changes would significantly improve the methodological rigor of the paper.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="suggestions-for-improvement-2" class="slide level2">
-<h2>Suggestions for Improvement (2)</h2>
-<ol start="5" type="1">
-<li>Provide more context on results compared to other countries and previous work</li>
-<li>Clarify individual vs.&nbsp;household level time poverty measurement</li>
-<li>Consider using effective weeks worked instead of 52-week assumption</li>
-<li>Examine urban/rural and household type differences in more depth</li>
-</ol>
-<aside class="notes">
-<p>These suggestions would enhance the paper’s contribution to the literature and policy relevance.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="conclusion" class="slide level2">
-<h2>Conclusion</h2>
-<p>While addressing an important topic, this paper requires significant revisions to provide robust insights on time poverty and gender in Colombia. More care in the empirical approach and interpretation of results is needed.</p>
-<aside class="notes">
-<p>The authors have an opportunity to make a valuable contribution with careful revisions and methodological improvements.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="thank-you" class="title-slide slide level1 center">
+<h1>Thank you!</h1>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
