@@ -1,0 +1,133 @@
+---
+title: "ALS analysis in NY"
+subtitle: "Identification of Areas with High ALS"
+author: 
+  - name: Fernando Rios-Avila
+date: last-modified
+date-format: long
+format:
+  revealjs:
+    theme: clean2.scss
+    slide-number: true
+    width:  1400
+    height: 800
+---
+
+## Background
+
+- The goal of the project/task is provide the most accurate and timely identification of areas experiencing an Acute labor Shortage in terms of Nurses in New York.
+- The initial analysis consisted in comparing, by different categories, # of postings vs # of Hires by county.
+    - High Hirings relative to posting would indicate a health labor market.
+    - Low Hirings relative to postings would indicate a labor shortage.
+- Main issues:
+    - Postings do not relate to number of hires 
+        - Single posting can result in multiple hires. Some postings are never taken down, etc.
+        - There is no proper hiring data. Data available consists on predictions and projections.
+
+## Change of Strategy
+
+- In June 2024, a new set of regulations were stablished by the federal goverment, aiming 
+change and improve the staffing standards for long term care facilities.
+- The new regulations change the minimum staffing requirements for Registered Nurses (RN) and Nursis assistants (NA) 
+    - 3.48hrs per resident per day (Minimun total)
+    - 0.55hrs per resident per day (RN)
+    - 2.45hrs per resident per day (NA)
+- More Importantly, they also stablished guidelinesto identify areas with Acute Labor Shortages (ALS), which would qualify providers for partial exemptions to the new requirements.
+- From our perspective, we can use this guidelines to identify areas with ALS in NY.
+
+## Methodology
+
+- The new methodolgy is as follows:^[See pg 26 third column]
+    1. Using data from the [BLS](https://www.bls.gov/oes/) to identify total number of RNs and NAs 
+    2. Calculate Total population for the corresponding MSA. Data comes from the [Census](https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/), where we can collect data at the county level.
+    3. Calculate the RNs and NAs per capita
+    4. Compare it to the National average (80%).
+
+##
+
+Logic:
+
+- National level: assume the market is in equilibrium. However, locallly, some labor markets may be experiencing shortages, or surpluses.
+- Total Supply is proxied by all personal working in specific occupations
+- Total Demand is proxied by the population of the area (or Age Specific)
+- Supply / demand < 80% of national average,  the area to have an ALS.
+
+Limitations:
+
+- Data is not timely. We are currently using 2020 to 2023 data. 2024 data its only partially available of population
+- For OES data for 2024 is not available yet. Perhaps we can request it.
+
+| code | Occupation|
+|--|-|
+|29-1141 |	Registered Nurses|
+|29-2061 |	Licensed Practical and Licensed |Vocational Nurses|
+|31-1131 |	Nursing Assistants|
+
+## Results: 2023
+
+<!---
+29-1141	Registered Nurses
+29-2061	Licensed Practical and Licensed Vocational Nurses
+31-1131	Nursing Assistants
+--->
+| Area                                           | RN-65+    | LPN-65+   | NA-65+    | RN-Tpop   |   LPN-Tpop | NA-Tpop   |
+|:-----------------------------------------------|:----------|:----------|:----------|:----------|:-----------|:----------|
+| Albany-Schenectady-Troy, NY                    | 110.95    | 126.03    | 95.32     | 121.72    |     138.3  | 104.6     |
+| Binghamton, NY                                 | 90.67     | 99.35     | 110.63    | 108.53    |     118.94 | 132.44    |
+| Buffalo-Cheektowaga-Niagara Falls, NY          | 107.12    | 140.83    | 89.62     | 122.26    |     160.78 | 102.3     |
+| Elmira, NY                                     | **67.89** | 200.79    | 95.46     | 80.35     |     237.71 | 113.0     |
+| Glens Falls, NY                                | **60.37** | 101.92    | **75.13** | 81.13     |     137    | 100.99    |
+| Ithaca, NY                                     | 91.17     | 103.36    | 90.58     | 86.89     |      98.52 | 86.34     |
+| Kingston, NY                                   | **44.62** | **68.99** | **39.61** | **55.22** |      85.41 | **49.04** |
+| New York-Newark-Jersey City, NY-NJ-PA          | 97.51     | 86.04     | 98.75     | 97.45     |      86.02 | 98.71     |
+| Rochester, NY                                  | 95.11     | 126.61    | 95.85     | 108.26    |     144.15 | 109.12    |
+| Syracuse, NY                                   | 110.24    | 153.35    | 102.57    | 120.58    |     167.77 | 112.21    |
+| Utica-Rome, NY                                 | **74.88** | 162.89    | 110.06    | 87.7      |     190.82 | 128.92    |
+| Watertown-Fort Drum, NY                        | **48.55** | 174.56    | **58.72** | **42.93** |     154.38 | **51.93** |
+| Capital/Northern New York nonmetropolitan area | **70.16** | 105.49    | **53.52** | 82.69     |     124.36 | **63.09** |
+| Southwest New York nonmetropolitan area        | **51.05** | 115.24    | **66.73** | **62.13** |     140.26 | 81.22     |
+| Central East New York nonmetropolitan area     | **48.9**  | 104.78    | **60.69** | **62.89** |     134.79 | **78.06** |
+
+
+
+## Results: 2022
+
+| Area                                           | RN-65+    | LPN-65+   | NA-65+    | RN-Tpop   |   LPN-Tpop | NA-Tpop   |
+|:-----------------------------------------------|:----------|:----------|:----------|:----------|:-----------|:----------|
+| Albany-Schenectady-Troy, NY                    | 110.49    | 126.62    | 96.45     | 120.84    |     138.51 | 105.51    |
+| Binghamton, NY                                 | 88.72     | 106.92    | 113.81    | 105.93    |     127.7  | 135.92    |
+| Buffalo-Cheektowaga-Niagara Falls, NY          | 107.91    | 131.11    | 81.61     | 122.38    |     148.73 | 92.57     |
+| Elmira, NY                                     | 92.74     | 114.98    | 118.12    | 110.0     |     136.42 | 140.13    |
+| Glens Falls, NY                                | **70.52** | 101.16    | 83.35     | 93.7      |     134.44 | 110.76    |
+| Ithaca, NY                                     | 87.98     | 102.44    | 87.88     | 82.96     |      96.61 | 82.87     |
+| Kingston, NY                                   | **46.28** | **66.03** | **40.7**  | **57.07** |      81.45 | **50.2**  |
+| New York-Newark-Jersey City, NY-NJ-PA          | 99.0      | 85.57     | 100.06    | 98.44     |      85.1  | 99.51     |
+| Rochester, NY                                  | 101.16    | 114.39    | 106.13    | 114.26    |     129.23 | 119.89    |
+| Syracuse, NY                                   | 115.04    | 159.55    | 102.94    | 124.9     |     173.26 | 111.78    |
+| Utica-Rome, NY                                 | **75.38** | 164.44    | 102.11    | 88.62     |     193.39 | 120.08    |
+| Watertown-Fort Drum, NY                        | **51.62** | 187.43    | **59.9**  | **45.53** |     165.36 | **52.84** |
+| Capital/Northern New York nonmetropolitan area | **69.88** | 108.65    | **55.85** | 82.36     |     128.1  | **65.84** |
+| Southwest New York nonmetropolitan area        | **51.18** | 115.37    | **73.75** | **62.19** |     140.24 | 89.64     |
+| Central East New York nonmetropolitan area     | **50.11** | 99.73     | **61.17** | **64.22** |     127.84 | **78.4**  |
+
+
+## Results: 2021
+
+| Area                                           | RN-65+    | LPN-65+   | NA-65+    | RN-Tpop   |   LPN-Tpop | NA-Tpop   |
+|:-----------------------------------------------|:----------|:----------|:----------|:----------|:-----------|:----------|
+| Albany-Schenectady-Troy, NY                    | 112.53    | 117.39    | 103.43    | 122.64    |     127.92 | 112.68    |
+| Binghamton, NY                                 | 99.51     | 98.82     | 133.55    | 118.68    |     117.85 | 159.23    |
+| Buffalo-Cheektowaga-Niagara Falls, NY          | 109.43    | 136.16    | 93.32     | 123.23    |     153.31 | 105.06    |
+| Elmira, NY                                     | 90.56     | 143.46    | 116.0     | 106.54    |     168.77 | 136.43    |
+| Glens Falls, NY                                | **65.94** | 105.49    | 90.31     | 87.14     |     139.4  | 119.32    |
+| Ithaca, NY                                     | 86.72     | 121.53    | 97.41     | 80.39     |     112.66 | 90.28     |
+| Kingston, NY                                   | **39.41** | **71.68** | **44.87** | **48.21** |      87.69 | **54.88** |
+| New York-Newark-Jersey City, NY-NJ-PA          | 97.47     | 86.52     | 101.94    | 96.26     |      85.44 | 100.64    |
+| Rochester, NY                                  | 98.53     | 132.09    | 105.01    | 110.58    |     148.23 | 117.82    |
+| Syracuse, NY                                   | 119.81    | 166.87    | 111.14    | 129.28    |     180.06 | 119.89    |
+| Utica-Rome, NY                                 | 80.9      | 176.29    | 112.07    | 95.4      |     207.87 | 132.12    |
+| Watertown-Fort Drum, NY                        | 85.85     | 209.11    | 106.4     | **74.74** |     182.04 | 92.6      |
+| Capital/Northern New York nonmetropolitan area | **75.87** | 109.27    | **76.34** | 88.94     |     128.09 | 89.46     |
+| Southwest New York nonmetropolitan area        | **50.78** | 122.85    | **76.09** | **61.52** |     148.82 | 92.15     |
+| Central East New York nonmetropolitan area     | **54.32** | 95.71     | **69.86** | **69.29** |     122.08 | 89.09     |
+
