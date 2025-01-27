@@ -1,0 +1,500 @@
+---
+title: "`jwdid`: Flexible Estimation of staggered DID designs"
+author: 
+  - name: Fernando Rios-Avila
+    affiliation: 
+date: last-modified
+date-format: long
+format:
+  revealjs:
+    theme: clean2.scss
+    slide-number: true
+    footer: "*Rios-Avila*"
+    width:  1400
+    height: 800
+execute: 
+  cache: true
+  freeze: auto    
+---
+
+## Introduction
+
+- **Differences in Differences** (DiD) design is one of the most popular methods in applied microeconomics, because it requires relatively few assumptions to identify treatment effects.
+  - No anticipation, 
+  - Parallel trends,
+  - No spillovers
+
+- This approach its so simple that canonical DiD, a 2x2 design, simply compares means of the outcome variable (before after x treated non-treated) to identify treatment effects. 
+  - Thus it can be used even if outcome is a limited dependent variable (binary, count, etc) 
+
+## Canonical DiD: 2x2 design
+
+- Consider the case where we have panel data (easiest scenario)
+    - We have two groups, those in treatment (D=1) and control (D=0)
+    - and all units are observed for two periods, a before and after (T=0,1)
+- If we assume full heterogeneity, the potential and realized outcomes for each unit are:
+$$\begin{aligned}
+y_{it}(W) &= \mu_i + \lambda_i t + \theta_i W \times t \\
+y_{it} &= D_i y_{it}(1) + (1-D_i) y_{it}(0)
+\end{aligned}
+$$
+
+## Canonical DiD: 2x2 design
+
+In this framework, TE for $i$ can be defined as:
+
+$$\theta_i = y_{i,1}(1) - y_{i,1}(0)$$
+
+Which may not be useful. Instead, we settle focus on something different. "average treatment effect" on treated (ATET or ATT) 
+
+$$\begin{aligned}
+ATT &= E[\theta_i | D_i = 1] = E[y_{i,1}(1) - y_{i,1}(0) | D_i = 1] \\
+&=E_1[\theta_i] = E_1[y_{i,1}(1)]  - E_1[ y_{i,1}(0) ]
+\end{aligned}
+$$
+
+But is still not identified, because $E_1[y_{i,1}(0)]$ is not observed.
+
+## Canonical DiD: 2x2 design
+
+How to calculate $E(y_{i,1}(0)|D=1)$ ?
+
+First, Decompose it:
+$$E_1(y_{i,1}(0))=E_1(y_{i,0}(0)) + E_1(\lambda_i)$$ 
+
+- Under No anticipation:  $E_1(y_{i,0}(0))=E_1(y_{i,0}(1))=E_1(y_{i,0})$
+- Under Parallel trends:  $E_1(\lambda_i)=E_0(\lambda_i)=E_0(y_{i,1}-y_{i,0})$
+
+- Thus putting it all together:
+
+$$\begin{aligned}
+ATT &= E_1[y_{i,1}] - [  E_1(y_{i,0}) + (E_0[y_{i,1}]-E_0[y_{i,0}]) ] \\
+&= [E_1[y_{i,1}] -   E_1(y_{i,0})] - [ E_0[y_{i,1}]-E_0[y_{i,0}] ]
+\end{aligned}
+$$
+
+## How is this estimated?
+
+- Setting aside estimation of Standard errors, the ATT can be estimated by simply comparing average outcomes for the treated and control groups before and after treatment. 
+
+- or using the following regression:
+
+$$y_{it} = \alpha + \beta D_i + \gamma t + \theta (D_i \times t) + \epsilon_{it}
+$$
+
+Where $\theta$ is the ATT on the treated.
+
+- This is equivalent to comparing predictions of the outcome for the treated group, with and without treatment, in the post-treatment period.
+
+## But life is not that simple
+
+- Cannonical DiD is stright forward, but its also very restrictive.
+    - What if we can identify and follow individuals over time? (Individual fixed effects)
+    - What if we have multiple periods? (Time fixed effects)
+    - What if we want to control of $X's$? 
+    - What if the treatment is staggered?
+    - what if the outcome is a limited dependent variable?
+
+## And some times we making even harder
+
+- Advanced questions in DID
+    - What if we are interested in $X$ heterogeneity of ATT's?
+    - What if we have a dose treatment?
+    - What if we have multiple treatments?
+ 
+## Panel data with multiple periods
+
+- Availability of many individuals that can be followed across time can be easily adapted in the regression based DID approach.
+- Specifically, instead of controlling for "treatment" class, we can control for individual fixed effects. 
+
+$$y_{it} =  \gamma t + \theta (D_i \times t) + \beta_i + \epsilon_{it}
+$$
+
+- In cases of balanced panels controling for individual fixed effects gives you the same results as controling for "$D_i$"
+
+## Panel data with multiple periods
+
+- For multiple periods, the same logic applies. Instead of controling for a before/after $t$, we can control for a time fixed effect.
+
+$$y_{it} = \theta (W_{it}) + \beta_i + \gamma_t + \epsilon_{it}
+$$
+
+- $W_{it} =1$ only for treated units in the post-treatment period, and $W_{it} =0$ otherwise.
+- $\theta$ would the the ATT for all post-treatment periods.
+- Still possible and easy to estimate using regression.
+- This is the \[in\]famous TWFE-DID estimator (generalized).
+
+## Controlling for $X's$ in DID
+
+- Canonical DID assumes PTA holds, implicitly assuming TE is homogenous across all groups, or Treated and control groups are similar.
+- But what if that isn't the case?
+    - We may want to control for unit characteristics $X$
+
+$$y_{it} =  \theta (W_{it}) + \beta_i + \gamma_t + \delta X_i + \epsilon_{it}$$    
+
+- This is a simple extension of the DID regression, 
+    - But imposes the strong assumption that the TE is constant across subgroups.
+    - If that isn't the case, results are biased.
+
+## Conditional Parallel Trends Assumption (CPTA)
+
+- There are two solutions to the problem
+    1. Make the assumption that the treatment effect is constant with respect to $X$.
+    2. Relax the PTA and use CPTA
+
+$$\begin{aligned}
+\text{PTA}&: E_1(y_{i,1}-y_{i,0})=E_0(y_{i,1}-y_{i,0}) \\
+\text{CPTA}&: E_1(y_{i,1}-y_{i,0}|X)=E_0(y_{i,1}-y_{i,0}|X)
+\end{aligned}
+$$
+
+- In other words, One could simple estimate ATTs for all sub-groups: 
+
+$$ATT(X) = E_1[y_{i,1}|X] - E_1[y_{i,0}|X] - [E_0[y_{i,1}|X] - E_0[y_{i,0}|X]]
+$$
+
+- Then simply aggregate $ATT = E_1[ATT(X)]$
+- Most approaches usually provide this aggregate ATT, or do separate estimates for each subgroup.
+    
+## How is it done Empirically? (2x2 case)
+
+- Sant'Anna and Zhao (2020) propose few solutions:
+    - Outcome Regression (Separate models for treated and control/pre and post periods)
+    - Inverse Probability Weighting (IPW)
+    - Combination of both
+
+- Wooldridge(2021) implicity outcome regression with interactions
+
+$$\begin{aligned}
+y_{it} &= \alpha     &&+ \beta D            &&+ \gamma t &&+ \theta (D \times t)  \\
+         &+ \lambda X  &&+ \lambda_D X \times D  &&+ \lambda_D X \times t  &&+ \lambda_{DT} \tilde X (D \times t)   \\\  
+         &+ \epsilon_{it}
+\end{aligned}
+$$
+
+- Where $\tilde X = X - E[X|D,t]$ (but its not necessary)
+- This is a flexible approach for embracing $X$ heterogeneity and CPTA
+
+## What controls can be included?
+
+- Tough question!
+    1. In these models, more controls means more interactions, thus more parameters to be estimated, and more unstable estimates. Unless you have large RC, you probably want to use only few controls.
+    2. With Panel Data, aim to control for pre-treatment characteristics, that are time fixed. (Avoids bad controls)
+    3. Use time varying variables with caution. In RC, the typical assumption is that time-varying variables are stationary, or that any changes are exogenous.
+
+| Note: `csdid[2]` forces you to use time fixed characteristics with panel data, But not for RC data
+| Note: `jwdid` does not impose this restriction.
+
+## Staggered treatment: The Fall
+
+- What if the treatment is not applied at the same time to all units?
+    - This is the case of staggered treatment.
+- The traditional approach: "Generalized TWFE-DID"
+
+$$y_{it} = \beta_i + \gamma_t + \theta W_{it} + \epsilon_{it}$$
+
+- However, this approach only works if the ATT is constant over time for all units.
+    - But...there is no guarantee! 
+- When this is not the case, results are biased (even very biased)
+
+## Why?
+
+- Standard OLS estimates identifies $\theta$ by comparing Pre and Post outcomes using various 2x2 designs.
+    - contrasting units that changed treatment status (treated) 
+    - with those that did not (controls, not-yet treated and **already treated**). 
+
+- This has been interpreted in two ways:
+    1. Negative weight 
+    2. Incorrect control group
+
+## The solution(s)
+
+- There are many solutions to the problem
+    1. Avoid the problem using only pretreatment data for estimation of counterfactuals (`did2s` and `did_imputation`)
+    2. Use only good controls when estimating the ATT (Callaway and Sant'Anna, 2021) (`csdid[2]`)
+    3. Modify model especfication to achieve 1 or 2. (Wooldridge 2021, 2022, 2024; `jwdid`)
+
+## How ETWFE addresses Staggered Treatment (`jwdid`)
+
+- TWFE was not wrong. It was just too simple.
+
+Wrong:
+
+$$y_{it} = \beta_i + \lambda_t + \theta (W_{it}) + \epsilon_{it}$$
+
+Right:
+
+$$y_{it} = \beta_i + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + \epsilon_{it}$$
+
+- Allows ATT ($\theta_{gt}$) to vary by group and time, using all not treated units as controls.
+
+```stata 
+jwdid y, tvar(tvar) ivar(ivar) gvar(gvar)
+```
+
+## Testing for PTA
+
+- The previous approach does not allow you to test for PTA. 
+    - Assumes that PTA holds!
+- But that can be relaxed:
+
+$$y_{it} = \beta_i + \lambda_t + \sum_{g=g_0}^G \sum_{t=0}^{t=g-2} \theta_{gt} \mathbb{1}(g, t) + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + \epsilon_{it}$$
+
+- The control group are the Never treated (only)
+    - Callaway and Sant'Anna (2021) `csdid[2]` with out controls and Balance panel
+    - Sun and Abraham (2021) (but using absolute rather than relative time)
+
+```stata 
+jwdid y, tvar(tvar) ivar(ivar) gvar(gvar) never
+```
+
+## What if you only have Repeated Cross Section data?
+
+- With repeated crossection, not much changes. 
+    - You cannot estimate individual fixed effects
+    - Instead you can use Group ($G$) fixed effects
+
+$$y_{it} = \beta_g + \lambda_t + \color{red}{\sum_{g=g_0}^G \sum_{t=0}^{t=g-2} \theta_{gt} \mathbb{1}(g, t)} + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + \epsilon_{it}$$
+
+```stata
+jwdid y, tvar(tvar) gvar(gvar) [never]
+```
+
+## Small Problem, simple solution
+
+JWDID may produce too many ATT(G,T) to analyze $\rightarrow$ aggregate!
+
+- Simple: $ATT = \frac{\sum_g \sum_t \theta_{gt} \mathbb{\omega}(g, t) \mathbb{1}(t\geq g)}{\sum_g \sum_t  \mathbb{\omega}(g, t) \mathbb{1}(t\geq g)}$ `estat simple`
+- Group: $ATT(g) = \frac{\sum_{t} \theta_{gt} \mathbb{\omega}(g, t)\mathbb{1}(t\geq g)}{\sum_{t} \mathbb{\omega}(g, t)\mathbb{1}(t\geq g)}$ `estat group`
+- Time: $ATT(t) = \frac{\sum_{g} \theta_{gt} \mathbb{\omega}(g, t)\mathbb{1}(t\geq g)}{\sum_{g} \mathbb{\omega}(g, t)\mathbb{1}(t\geq g)}$ `estat calendar`
+- Event: $ATT(e) =\frac{\sum_g \sum_t \theta_{gt} \mathbb{\omega}(g, t) \mathbb{1}(t-g=e) }{\sum_g \sum_t \mathbb{\omega}(g, t)\mathbb{1}(t-g=e)}$ `estat event`
+
+- where $\mathbb{\omega}(g, t)$ is the weight (total number of units in group $g$ observed at time $t$)
+
+## Controlling for $X$ heterogeneity
+
+- Allowing for $X$ heterogeneity is simple. Simply consider a flexible model with interactions!
+$$\begin{aligned}
+y_{it} &= \color{red}{\beta_0}  &&+ \beta_i &&+ \lambda_t &&+ \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) &&+ \\
+    &\ \ \ \   \delta X_{i,t}  
+    &&+ \sum_g \delta_g X_{i,t}  \mathbb{1}(g) 
+    &&+ \sum_t \delta_t X_{i,t}  \mathbb{1}(t) 
+    &&+ \sum_{g=g_0}^G \sum_{t=g}^{t=T} \delta_{gt} \color{blue}{X_{it}} \mathbb{1}(g, t) &&+\\
+    &\ \ \ \  \epsilon_{it} 
+\end{aligned}
+$$
+
+- Considerations:
+    - Some of these interactions will be collinear with $i/g$ and $t$ fixed effects (Thus dropped)
+    - $\color{blue}{X_{it}}$ could be left as is ($\theta_{gt}$ is not ATT(G,T))
+    - or substitute for $\tilde X_{it}$ (where $\tilde X_{it} = X_{it} - E[X|g,t]$). ($\theta_{gt}$ is ATT(G,T))
+    - $\delta_{gt}$ Is the impact of $X$ on the ATT(g,t)
+
+## Controlling for $X$ heterogeneity
+
+In Stata, `jwdid` can also estimate both types of models:
+
+```stata
+* Demeaning Data (Θ is ATT(G,T))
+jwdid y, tvar(tvar) ivar(ivar) gvar(gvar) [never] 
+
+* Using X as is (Θ is not ATT(G,T))
+* May be faster
+jwdid y, tvar(tvar) ivar(ivar) gvar(gvar) [never] xasis
+```
+- Both approaches will produce the same results once aggregations are 
+done.
+
+## Estimating ATTs when using `xasis`? 
+
+- When using $X$ asis, $\theta_{gt}$ is not ATT(G,T).
+- In such cases, we need a different approach to estimate the  ATT(G,T):
+
+$$\begin{aligned}
+\theta_{gt} &= E[\hat y_{i,t}(X_{it},\mathbb{1}(g,t)=1) 
+               - \hat y_{i,t}(X_{it},\mathbb{1}(g,t)=0)|g,t] 
+\end{aligned}
+$$
+
+- $\hat y_{i,t}(X_{it},\mathbb{1}(g,t)=1)$ Model prediction as if treated (as observed)
+- $\hat y_{i,t}(X_{it},\mathbb{1}(g,t)=0)$ Model prediction as if **NOT** treatead (counterfactual)
+
+## Limited Dependent Variables
+
+- As with OLS, one Big advantage of using OLS is that it can be used for any type of outcome.
+    - Minor inconvenience: Heteroskedasticity and non-sensical predictions
+- Using OLS, however, assumes that **[C]PTA** holds for the observed outcome (At levels).  
+  What if that is not the case?
+    - Wages grow at the same rate for treated and control (PTA holds)
+    - But for high earners, wages grow faster in absolute terms (PTA does not hold)
+- Solution (Wooldridge(2023)) Focus not on the observed outcome, but on the latent variable!
+
+## Limited Dependent Variables 
+
+There are **two** main changes to consider:
+
+1. We change the model and focus on the latent variable (think GLM)
+
+$$\begin{aligned}
+y_{it}^* &= \beta_g + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) \\
+E(y_{it}) &= G(y_{it}^*) 
+\end{aligned}
+$$
+
+Thus we need a model appropriate for $G()$ (logit, poisson, tobit, etc)
+
+2. Most non-linear models have issues adding many fixed effects (incidental parameters problem)
+    - Use Cohort/Group fixed effects (instead of individual)
+    - Use Correlated Random Effects (CRE) as an alternative to fixed effects.
+3. $\theta_{gt}$ is not ATT(G,T) on outcome, but on latent variable.
+
+## Limited Dependent Variables `jwdid`
+
+- `jwdid` can estimate these type of models simply calling for `method()`.
+    - Almost any model available in Stata can be called. Few cases may require tweaks (mostly two-word commands and clustered SE call)
+        - when doing so, `jwdid` will use cohort FE instead of individual FE
+    - Only `ppmlhdfe` (so far) would still add individual fixed effects.
+- the CRE correction can be called using `cre` option.
+    - Output not be displayed, for space.
+
+```stata
+** uses cohort FE
+jwdid y, tvar(tvar) [ivar(ivar)] gvar(gvar) [never] method(logit)
+** uses CRE correction
+jwdid y, tvar(tvar) ivar(ivar) gvar(gvar) [never] method(logit) cre
+```
+
+## Limited Dependent Variables `jwdid`
+
+Note that $\theta_{gt}$ is not ATT(G,T) on outcome, but on latent variable.
+
+however, one can request aggregations of the latent or outcome variable afterwards
+
+```stata
+estat [simple|group|calendar|event] /// Default uses "method()" options
+estat [simple|group|calendar|event], predict(xb) /// but one can use other outcomes
+```
+ 
+## Estimating ATT based on $X$ Heterogeneity
+
+- Some times you may want to estimate ATT for different sub-groups.
+- `jwdid` already incorporates this by using flexible models, but produces Average ATT's.
+- Thanks to `margins`, it is possible to estimate ATTs for different *discrete* sub-groups (not continuous):
+
+```stata
+** setup
+jwdid y i.x1 x2, tvar(tvar) ivar(ivar) gvar(gvar) never 
+** ATTs for specific groups
+estat simple // average ATT
+estat simple, over(x1) // ATT estimated for each group of x1
+// For observations where x2 is between 0 and 1
+estat [simple|calendar|group|event], ores( x2>0 | x2<1 )
+// For observations where x1 is 0
+estat [simple|calendar|group|event], ores( x1==0 )
+```
+
+## Treatment Intensity and Heterogeneity
+
+- Another common scenario is when treatment is different across groups.
+    - Case 1: Treatment is the same, but dose response (0-100) varies
+    - Case 2: Each treatment is different ( Treatment A, B or C)
+
+- The `jwdid` framework can also be adapted to these scenarios, albeit with limitations.
+
+## Case 1: Treatment Intensity
+    
+- The Treatment intensity should be defined between 0-1. 
+- Impose the assumption that ATT(G,T)(X) is linear on the treatment intensity.
+- This requires you to have a variable `trtvar` that defines treatment intensity.
+
+```stata
+** setup
+jwdid y i.x1 x2, tvar(tvar) [ivar(ivar)] [gvar(gvar)] trtvar(trtvar) [never]
+** ATT aggregation
+
+*** Estimates Treatment effect, assuming Full Intensity (T=1)
+estat [simple|group|calendar|event] 
+
+*** Estimates Treatment effect, assuming intensity as observed
+estat [simple|group|calendar|event] , asis 
+```
+- This gives a single ATT, but could be combined with `ores()` or `over()` to estimate ATTs for different sub-groups.
+
+## Case 2: Treatment Heterogeneity (including On and Off)
+
+- This is a case where you could have different treatments implemented at the same time. (**H**)
+- In principle, this could be done simply using different models for each treatment type. (all groups share the same control group)
+- This entails a very flexible model. (Interaction **T x [G x H]**) 
+- Alternatively, we can assume that Heterogeneity only affects the ATT(G,T,H)
+
+$$\begin{aligned}
+y_{it} &= \beta_g + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \sum_h  \theta_{gth} \mathbb{1}(g, t, h) + \epsilon_{it}
+\end{aligned}
+$$
+
+## Case 2: Treatment Heterogeneity (including On and Off)
+
+Estimation with `jwdid` is very simple:
+
+```stata
+** setup
+jwdid y i.x1 x2, tvar(tvar) ivar(ivar) gvar(gvar) xattvar( trt_l trt_h) [never]
+** Assume trt_m is the base treatment. trt_l and trt_h are potential treatments.
+** The base-line treatment will be dropped.
+```
+
+- Aggregation methods can be done as before
+    - `estat [simple|group|calendar|event]` provide a single ATT
+    - combined with `over()` or `ores()`, one could estimate ATT Heterogeneity
+
+## Other Options of interest: Gravity Models and Beyond
+
+- `jwdid` has other "advanced" options that could further help model specification.
+
+- `fevar()`: Allows introducing FE other than Panel (only with `reghdfe` or `ppmlhdfe`)
+
+$$\begin{aligned}
+y_{it} &= \beta_g + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + \omega_j+ \epsilon_{it}
+\end{aligned}
+$$
+
+- `exovar()`: Variables not interacted with treatment $G$ nor time $T$, nor both.
+
+$$\begin{aligned}
+y_{it} &= \beta_g + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + 
+\phi  X_{it} + \epsilon_{it}
+\end{aligned}
+$$
+
+## Other Options of interest: Gravity Models and Beyond
+
+- `xtvar()` and `xgvar()`: variables that will only interact the time or group fixed effects.
+$$\begin{aligned}
+y_{it} &= \beta_g + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + 
+ \sum_{g=g_0}^G \gamma_{g} \mathbb{1}(g) X_{it} + \epsilon_{it} \\
+y_{it} &= \beta_g + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + 
+ \sum_{t=t_0}^T \gamma_{t} \mathbb{1}(g) X_{it} + \epsilon_{it}
+\end{aligned}
+$$
+
+- `anticipation(#)`: Allows to set a different period as baseline for the treatment. (default is 1) (g-1)
+
+- `hettype()`: Allows to impose some restrictions on heterogeneity type. Default its `timecohort`
+    - `time`, `cohort`, `event`, `twfe`, `eventcohort`
+
+- And For Event aggregation:
+    - `window(#1 #2)` as is window
+    - `cwindow(#1 #2)` Censored window
+
+## Conclusion
+
+- The battle of methods trying to address the problems of the traditional TWFE-DID has been long and hard (2020-2023?)
+    - I can probably say that it has settled down, with few options available: `csdid`, `did_imputation`, `did_multiple_dyn` and `jwdid` 
+- Under some assumptions, they are all equivalent. But some are more flexible than others.
+- I wrote `jwdid` to be as flexible as possible, inspired by the work of Wooldridge (2021, 2022, 2023, 2024) 
+    - some of the extensions and options go beyond Wooldridge's work (or were developed independently)
+- I hope you find it useful.
+
+# Thank you!
+
+## References

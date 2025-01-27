@@ -340,10 +340,9 @@ $selection-bg: #26351c !default;
 .reveal pre.sourceCode code {
   padding: 6px 9px;
   max-height: 500px;
-  font-size: 25pt;
-  white-space: pre
+  font-size: 20pt;
+  white-space: pre;
 }
-
 
 .reveal.left .slides h1, .reveal .slides section.left h1 {
   left: 0;
@@ -359,12 +358,13 @@ $selection-bg: #26351c !default;
 }
 
 // for code blocks
- 
-
+.reveal pre.sourceCode code {
+  /* height: 500px; */
+  max-height: 10000px;
+}
 .reveal pre code {
   /*overflow: visible*/
   max-height: 10000px;
-  font-size: 20pt;
 } 
 
 // table note
