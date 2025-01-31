@@ -99,14 +99,12 @@ Where $\theta$ is the ATT.
 
 ## And some times we make things even harder
 
-
-- What if we are interested in $X$ heterogeneity of ATT's?
-    - Is the effect stronger for some groups?
-- What if we have a dose treatment?
-    - Is there a change in the effect based on the intensity of the treatment?
-- What if we have multiple treatments?
-    - What if we have multiple treatments (Cash vs In-kind transfers)?
-
+-   What if we are interested in $X$ heterogeneity of ATT's?
+    -   Is the effect stronger for some groups?
+-   What if we have a dose treatment?
+    -   Is there a change in the effect based on the intensity of the treatment?
+-   What if we have multiple treatments?
+    -   What if we have multiple treatments (Cash vs In-kind transfers)?
 
 # ETWFE: A flexible approach to DiD
 
@@ -223,7 +221,7 @@ $$y_{it} = \beta_i + \gamma_t + \theta W_{it} + \epsilon_{it}$$
 -   There are many solutions to the problem
     1.  Avoid the problem using only pre-treatment data for estimation of counterfactuals [@borusyak2024; @gardner2022] (`did2s` and `did_imputation`)
     2.  Use only good controls when estimating the ATT [@callaway2021] (`csdid[2]`)
-    3.  Modify model specification to achieve 1 or 2. [\@wooldridge2023](%60jwdid%60)[; \@wooldridge2021; \@deb2024; \@yotov2024](%60jwdid%60)
+    3.  Modify model specification to achieve 1 or 2. [\@wooldridge2023; \@wooldridge2021; \@deb2024; \@yotov2024](%60jwdid%60)
 
 ## How ETWFE addresses Staggered Treatment (`jwdid`)
 
@@ -418,7 +416,7 @@ estat [simple|calendar|group|event], ores( x1==0 )
 
 -   The Treatment intensity should be defined between 0-1.
 -   Impose the assumption that ATT(G,T)(TI) is linear on the treatment intensity (TI).
-    - This could be relaxed.
+    -   This could be relaxed.
 -   It requires you to have a variable `trtvar` that defines treatment intensity.
 
 ``` stata
@@ -457,22 +455,23 @@ jwdid y i.x1 x2, tvar(tvar) ivar(ivar) gvar(gvar) xattvar( trt_l trt_h) [never]
 ** Assume trt_m is the base treatment. trt_l and trt_h are potential treatments.
 ** The base-line treatment will be dropped.
 ```
+
 -   Aggregation methods can be done as before
     -   `estat [simple|group|calendar|event]` provide a single ATT
     -   combined with `over()` or `ores()`, one could estimate ATT Heterogeneity
 
-## Statistical Inference: 
+## Statistical Inference:
 
-- One of the main advantages of `jwdid` is that we do not need to be concerned with the estimation of standard errors. 
-    - They are automatically calculated using the package of your choice.
-- Some notes, however
-    - If using Panel data, SE are automatically clustered at the individual level.
-    - if using RC, SE are not clustered. (you need to add that to the command)
-    - By default, they will ignore uncertainty of covariates
-- Still, that can be easily fixed adding `vce(unconditional)` to aggregation commands
-    - `estat [simple|group|calendar|event], vce(unconditional)`
-- Caveat: This does not work if using `reghdfe` or `ppmlhdfe` as the estimation method.
-    - Use `regress cre or poisson cre` instead (Stata does this) 
+-   One of the main advantages of `jwdid` is that we do not need to be concerned with the estimation of standard errors.
+    -   They are automatically calculated using the package of your choice.
+-   Some notes, however
+    -   If using Panel data, SE are automatically clustered at the individual level.
+    -   if using RC, SE are not clustered. (you need to add that to the command)
+    -   By default, they will ignore uncertainty of covariates
+-   Still, that can be easily fixed adding `vce(unconditional)` to aggregation commands
+    -   `estat [simple|group|calendar|event], vce(unconditional)`
+-   Caveat: This does not work if using `reghdfe` or `ppmlhdfe` as the estimation method.
+    -   Use `regress cre or poisson cre` instead (Stata does this)
 
 ## Other Options of interest: Gravity Models and Beyond
 
@@ -495,14 +494,13 @@ $$
 
 ## Other Options of interest: Gravity Models and Beyond
 
--   `xtvar()` and `xgvar()`: variables that will only interact the time or group fixed effects. 
-$$\begin{aligned}
-y_{it} &= \beta_g + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + 
+-   `xtvar()` and `xgvar()`: variables that will only interact the time or group fixed effects. $$\begin{aligned}
+    y_{it} &= \beta_g + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + 
      \sum_{g=g_0}^G \gamma_{g} \mathbb{1}(g) X_{it} + \epsilon_{it} \\
     y_{it} &= \beta_g + \lambda_t + \sum_{g=g_0}^G \sum_{t=g}^{t=T} \theta_{gt} \mathbb{1}(g, t) + 
      \sum_{t=t_0}^T \gamma_{t} \mathbb{1}(g) X_{it} + \epsilon_{it}
     \end{aligned}
-$$
+    $$
 
 -   `anticipation(#)`: Allows to set a different period as baseline for the treatment. (default is 1) (g-1)
 
@@ -521,8 +519,8 @@ $$
     -   I can probably say that it has settled down, with few options available: `csdid`, `did_imputation`, `did_multiple_dyn` and `jwdid`
 -   Under some assumptions, they are all equivalent. But some are more flexible than others.
 -   I wrote `jwdid` to be as flexible as possible
-    - some of the extensions and options go beyond Wooldridge's work 
-    - some were developed independently
+    -   some of the extensions and options go beyond Wooldridge's work
+    -   some were developed independently
 -   I hope you find it useful.
 
 # Thank you!
