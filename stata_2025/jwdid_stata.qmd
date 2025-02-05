@@ -525,4 +525,15 @@ $$
 
 # Thank you!
 
+If you are interested, you can install the latest version of `jwdid` using
+
+`net install jwdid, from(https://raw.githubusercontent.com/friosavila/stpackages/main)`
+
+You can find me on 
+
+- Twitter: [friosavila](https://x.com/friosavila)
+- GitHub: [friosavila](https://github.com/friosavila)
+- Email: [friosa@gmail.com](mailto:friosa@gmail.com)
+
+
 ## References
