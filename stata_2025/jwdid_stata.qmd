@@ -9,7 +9,7 @@ format:
   revealjs:
     theme: clean2.scss
     slide-number: true
-    footer: "*Rios-Avila*"
+    footer: "*Oceania Stata Conference 2025*"
     width:  1400
     height: 800
     embed-resources: true
