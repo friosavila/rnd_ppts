@@ -221,7 +221,7 @@ $$y_{it} = \beta_i + \gamma_t + \theta W_{it} + \epsilon_{it}$$
 -   There are many solutions to the problem
     1.  Avoid the problem using only pre-treatment data for estimation of counterfactuals [@borusyak2024; @gardner2022] (`did2s` and `did_imputation`)
     2.  Use only good controls when estimating the ATT [@callaway2021] (`csdid[2]`)
-    3.  Modify model specification to achieve 1 or 2. [\@wooldridge2023; \@wooldridge2021; \@deb2024; \@yotov2024](%60jwdid%60)
+    3.  Modify model specification to achieve 1 or 2. [@wooldridge2023; @wooldridge2021; @deb2024; @yotov2024] (`jwdid`)
 
 ## How ETWFE addresses Staggered Treatment (`jwdid`)
 
